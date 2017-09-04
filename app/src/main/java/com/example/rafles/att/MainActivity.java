@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.rafles.att.crud_sqlite.Inputdata;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -98,6 +100,11 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.nav_profile) {
             Toast.makeText(MainActivity.this, "Profile Masih dalam pengembangan", 1000).show();
+        }
+        else if (id == R.id.nav_inputdata) {
+            Intent in=new Intent(this,Inputdata.class);
+            startActivity(in);
+            return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

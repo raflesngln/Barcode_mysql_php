@@ -14,6 +14,10 @@
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="My Profil" />
+        <item
+            android:id="@+id/nav_inputdata"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Inpu data" />
     </group>
 
     <item android:title="Communicate">
