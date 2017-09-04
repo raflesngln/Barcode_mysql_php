@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.rafles.att.MainActivity;
 import com.example.rafles.att.R;
 
 public class UpdateData extends AppCompatActivity {
@@ -58,7 +57,7 @@ public class UpdateData extends AppCompatActivity {
                         text5.getText().toString() + "' where no='" +
                         text1.getText().toString()+"'");
                 Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_LONG).show();
-                Inputdata.ma.RefreshList();
+                Sql_lite_view.ma.RefreshList();
                 finish();
             }
         });

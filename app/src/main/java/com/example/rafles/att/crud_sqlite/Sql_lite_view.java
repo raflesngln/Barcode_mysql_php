@@ -14,21 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.rafles.att.MainActivity;
 import com.example.rafles.att.R;
 
-public class Inputdata extends AppCompatActivity {
+public class Sql_lite_view extends AppCompatActivity {
     String[] daftar;
     ListView ListView01;
     Menu menu;
     protected Cursor cursor;
     DataHelper dbcenter;
-    public static Inputdata ma;
+    public static Sql_lite_view ma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inputdata);
+        setContentView(R.layout.activity_sql_lite);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn=(Button)findViewById(R.id.button2);
@@ -37,7 +36,7 @@ public class Inputdata extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Intent inte = new Intent(Inputdata.this, BuatData.class);
+                Intent inte = new Intent(Sql_lite_view.this, BuatData.class);
                 startActivity(inte);
             }
         });
@@ -66,9 +65,9 @@ public class Inputdata extends AppCompatActivity {
 
             public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
                 final String selection = daftar[arg2]; //.getItemAtPosition(arg2).toString();
-                final CharSequence[] dialogitem = {"Lihat Biodata", "Update Biodata", "Hapus Biodata"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(Inputdata.this);
-                builder.setTitle("Pilihan");
+                final CharSequence[] dialogitem = {"Lihat Deskripsi", "Edit Data", "Hapus Data"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(Sql_lite_view.this);
+                builder.setTitle("Choose Action");
                 builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         switch(item){

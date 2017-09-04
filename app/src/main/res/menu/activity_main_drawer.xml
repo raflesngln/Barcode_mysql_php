@@ -15,9 +15,13 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="My Profil" />
         <item
-            android:id="@+id/nav_inputdata"
+            android:id="@+id/nav_crud_sql_lite"
             android:icon="@drawable/ic_menu_send"
-            android:title="Inpu data" />
+            android:title="CRUD SQL Lite" />
+        <item
+            android:id="@+id/nav_crud_phpmysql"
+            android:icon="@drawable/ic_menu_send"
+            android:title="CRUD PHP Mysql" />
     </group>
 
     <item android:title="Communicate">

@@ -46,10 +46,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".crud_sqlite.Inputdata" />
-        <activity android:name=".crud_sqlite.BuatData" />
-        <activity android:name=".crud_sqlite.LihatData" />
-        <activity android:name=".crud_sqlite.UpdateData"></activity>
+        <activity android:name=".crud_sqlite.Sql_lite_view"
+            android:label="CRUD SQLITE"/>
+        <activity android:name=".crud_sqlite.BuatData"
+            android:label="Create Data"/>
+        <activity android:name=".crud_sqlite.LihatData"
+            android:label="Lihat Data"/>
+        <activity android:name=".crud_sqlite.UpdateData"
+            android:label="Edit Data"></activity>
     </application>
 
 </manifest>

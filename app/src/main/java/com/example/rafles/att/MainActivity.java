@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.rafles.att.crud_sqlite.Inputdata;
+import com.example.rafles.att.crud_sqlite.Sql_lite_view;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -100,9 +100,12 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.nav_profile) {
             Toast.makeText(MainActivity.this, "Profile Masih dalam pengembangan", 1000).show();
-        }
-        else if (id == R.id.nav_inputdata) {
-            Intent in=new Intent(this,Inputdata.class);
+        } else if (id == R.id.nav_crud_sql_lite) {
+            Intent in=new Intent(this,Sql_lite_view.class);
+            startActivity(in);
+            return true;
+        } else if (id == R.id.nav_crud_phpmysql) {
+            Intent in=new Intent(this,Sql_lite_view.class);
             startActivity(in);
             return true;
         }

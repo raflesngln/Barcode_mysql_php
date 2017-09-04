@@ -43,7 +43,7 @@ public class BuatData extends AppCompatActivity {
                         text4.getText().toString() + "','" +
                         text5.getText().toString() + "')");
                 Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_LONG).show();
-                Inputdata.ma.RefreshList();
+                Sql_lite_view.ma.RefreshList();
                 finish();
             }
         });
