@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.CAMERA"
@@ -46,14 +47,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".crud_sqlite.Sql_lite_view"
-            android:label="CRUD SQLITE"/>
-        <activity android:name=".crud_sqlite.BuatData"
-            android:label="Create Data"/>
-        <activity android:name=".crud_sqlite.LihatData"
-            android:label="Lihat Data"/>
-        <activity android:name=".crud_sqlite.UpdateData"
-            android:label="Edit Data"></activity>
+        <activity
+            android:name=".crud_sqlite.Sql_lite_view"
+            android:label="CRUD SQLITE" />
+        <activity
+            android:name=".crud_sqlite.BuatData"
+            android:label="Create Data" />
+
+        <activity
+            android:name=".crud_sqlite.LihatData"
+            android:label="Lihat Data" />
+        <activity
+            android:name=".crud_sqlite.UpdateData"
+            android:label="Edit Data" />
+        <activity android:name=".crud_mysql.Mysql_crud" />
+        <activity android:name=".crud_mysql.TampilData" />
+        <activity android:name=".crud_mysql.Detail_data"></activity>
     </application>
 
 </manifest>

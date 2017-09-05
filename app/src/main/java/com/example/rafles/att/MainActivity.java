@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.rafles.att.crud_mysql.Mysql_crud;
 import com.example.rafles.att.crud_sqlite.Sql_lite_view;
 
 public class MainActivity extends AppCompatActivity
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(in);
             return true;
         } else if (id == R.id.nav_crud_phpmysql) {
-            Intent in=new Intent(this,Sql_lite_view.class);
+            Intent in=new Intent(this,Mysql_crud.class);
             startActivity(in);
             return true;
         }
