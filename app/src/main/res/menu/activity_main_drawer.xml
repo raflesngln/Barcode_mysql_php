@@ -22,6 +22,14 @@
             android:id="@+id/nav_crud_phpmysql"
             android:icon="@drawable/ic_menu_send"
             android:title="CRUD PHP Mysql" />
+        <item
+            android:id="@+id/nav_crudMysql"
+            android:icon="@drawable/ic_menu_send"
+            android:title="CRUD PHP Mysql 2" />
+        <item
+            android:id="@+id/nav_barcode"
+            android:icon="@drawable/ic_menu_send"
+            android:title="QR Barcode" />
     </group>
 
     <item android:title="Communicate">

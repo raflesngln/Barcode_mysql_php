@@ -27,6 +27,7 @@ public class Mysql_crud extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mysql_crud);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//btn back
 
         //Inisialisasi dari View
         editFullname = (EditText) findViewById(R.id.editFullname);
@@ -45,9 +46,9 @@ public class Mysql_crud extends AppCompatActivity implements View.OnClickListene
     //Dibawah ini merupakan perintah untuk Menambahkan Pegawai (CREATE)
     private void AddData(){
 
-        final String fullnm = editFullname.getText().toString().trim();
-        final String usr = editUsername.getText().toString().trim();
-        final String pass = editPassword.getText().toString().trim();
+        final String fullname = editFullname.getText().toString().trim();
+        final String username = editUsername.getText().toString().trim();
+        final String password = editPassword.getText().toString().trim();
 
         class AddData extends AsyncTask<Void,Void,String>{
 
@@ -70,9 +71,9 @@ public class Mysql_crud extends AppCompatActivity implements View.OnClickListene
             protected String doInBackground(Void... v) {
                 HashMap<String,String> params = new HashMap<>();
 
-                params.put(konfigurasi.KEY_DATA_USERNAME,fullnm);
-                params.put(konfigurasi.KEY_DATA_FULLNAME,usr);
-                params.put(konfigurasi.KEY_DATA_PASSWORD,pass);
+                params.put(konfigurasi.KEY_DATA_USERNAME,fullname);
+                params.put(konfigurasi.KEY_DATA_FULLNAME,username);
+                params.put(konfigurasi.KEY_DATA_PASSWORD,password);
 
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(konfigurasi.URL_ADD, params);
@@ -94,5 +95,12 @@ public class Mysql_crud extends AppCompatActivity implements View.OnClickListene
             startActivity(new Intent(this,TampilData.class));
 
         }
+    }
+
+    @Override
+    //when click back button
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }

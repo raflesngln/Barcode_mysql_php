@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.rafles.att.barcode.QrBarcode;
 import com.example.rafles.att.crud_mysql.Mysql_crud;
 import com.example.rafles.att.crud_sqlite.Sql_lite_view;
 
@@ -109,7 +110,16 @@ public class MainActivity extends AppCompatActivity
             Intent in=new Intent(this,Mysql_crud.class);
             startActivity(in);
             return true;
+        } else if (id == R.id.nav_crudMysql) {
+            Intent in=new Intent(this,Mysql_crud.class);
+            startActivity(in);
+            return true;
+        } else if (id == R.id.nav_barcode) {
+            Intent in=new Intent(this,QrBarcode.class);
+            startActivity(in);
+            return true;
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

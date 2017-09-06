@@ -42,12 +42,12 @@ public class TampilData extends AppCompatActivity implements ListView.OnItemClic
             for(int i = 0; i<result.length(); i++){
                 JSONObject jo = result.getJSONObject(i);
                 String id = jo.getString(konfigurasi.TAG_ID);
-                String name = jo.getString(konfigurasi.TAG_FULNAME);
+                String fullname = jo.getString(konfigurasi.TAG_FULNAME);
 
-                HashMap<String,String> mydata = new HashMap<>();
-                mydata.put(konfigurasi.TAG_ID,id);
-                mydata.put(konfigurasi.TAG_FULNAME,name);
-                list.add(mydata);
+                HashMap<String,String> msuser = new HashMap<>();
+                msuser.put(konfigurasi.TAG_ID,id);
+                msuser.put(konfigurasi.TAG_FULNAME,fullname);
+                list.add(msuser);
             }
 
         } catch (JSONException e) {
@@ -55,7 +55,7 @@ public class TampilData extends AppCompatActivity implements ListView.OnItemClic
         }
 
         ListAdapter adapter = new SimpleAdapter(
-                TampilData.this, list, R.layout.list_item,
+        TampilData.this, list, R.layout.list_item,
                 new String[]{konfigurasi.TAG_ID,konfigurasi.TAG_FULNAME},
                 new int[]{R.id.id, R.id.name});
 
