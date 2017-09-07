@@ -68,10 +68,10 @@
             android:name=".crudmysql.CrudMysql"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".barcode.QrBarcode" />
-        <activity android:name=".mahasiswa.CrudMahasiswa" />
-        <activity android:name=".mahasiswa.UpdateActivity" />
-        <activity android:name=".mahasiswa.ViewActivity"></activity>
+        <activity android:name=".barcode.QrBarcode" android:label="Barcode Scanner" />
+        <activity android:name=".mahasiswa.CrudMahasiswa" android:label="Data Mahasiswa"/>
+        <activity android:name=".mahasiswa.UpdateActivity" android:label="Edit Data" />
+        <activity android:name=".mahasiswa.ViewActivity" android:label="List Mahasiswa"></activity>
     </application>
 
 </manifest>

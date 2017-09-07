@@ -21,6 +21,8 @@ import com.example.rafles.att.barcode.QrBarcode;
 import com.example.rafles.att.crud_mysql.Mysql_crud;
 import com.example.rafles.att.crud_sqlite.Sql_lite_view;
 import com.example.rafles.att.mahasiswa.CrudMahasiswa;
+import com.example.rafles.att.mahasiswa.CrudMahasiswa_ViewBinding;
+import com.example.rafles.att.mahasiswa.ViewActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,8 +38,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                     //   .setAction("Action", null).show();
+                startActivity(new Intent(MainActivity.this, CrudMahasiswa.class));
             }
         });
 
@@ -95,9 +98,7 @@ public class MainActivity extends AppCompatActivity
             Intent in=new Intent(this,NavSettings.class);
             startActivity(in);
             return true;
-        }else if (id == R.id.nav_gallery) {
-            Toast.makeText(MainActivity.this, "gallery Masih dalam pengembangan", 1000).show();
-        } else if (id == R.id.nav_about) {
+        }else if (id == R.id.nav_about) {
             Intent in=new Intent(this,About.class);
             startActivity(in);
             return true;
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(in);
             return true;
         }else if (id == R.id.nav_mhs) {
-            Intent in=new Intent(this,CrudMahasiswa.class);
+            Intent in=new Intent(this,ViewActivity.class);
             startActivity(in);
             return true;
         } else if (id == R.id.nav_exit) {

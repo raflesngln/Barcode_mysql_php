@@ -90,7 +90,7 @@ public class UpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update);
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Ubah Data");
+        getSupportActionBar().setTitle("Edit Data");
 
         Intent intent = getIntent();
         String npm = intent.getStringExtra("npm");

@@ -87,6 +87,6 @@
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UBAH"/>
+        android:text="Update Data"/>
 
 </LinearLayout>

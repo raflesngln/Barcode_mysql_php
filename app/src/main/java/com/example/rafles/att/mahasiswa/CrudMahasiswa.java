@@ -88,5 +88,11 @@ public class CrudMahasiswa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crud_mahasiswa);
         ButterKnife.bind(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.rafles.att.mahasiswa;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -38,9 +40,18 @@ public class ViewActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
+
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Daftar Mahasiswa");
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddMhs);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ViewActivity.this, CrudMahasiswa.class));
+            }
+        });
 
         viewAdapter = new RecyclerViewAdapter(this, results);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
