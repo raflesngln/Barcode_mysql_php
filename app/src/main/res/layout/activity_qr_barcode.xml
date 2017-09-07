@@ -48,6 +48,7 @@
             android:textSize="18dp" />
 
 
+
         <TextView
             android:id="@+id/txtalert"
             android:layout_width="wrap_content"

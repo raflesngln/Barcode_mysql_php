@@ -3,10 +3,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Gallery" />
@@ -30,6 +26,10 @@
             android:id="@+id/nav_barcode"
             android:icon="@drawable/ic_menu_send"
             android:title="QR Barcode" />
+        <item
+            android:id="@+id/nav_mhs"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Mahasiswa" />
     </group>
 
     <item android:title="Communicate">
@@ -42,6 +42,10 @@
                 android:id="@+id/nav_setting"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Settings" />
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Exit" />
         </menu>
     </item>
 

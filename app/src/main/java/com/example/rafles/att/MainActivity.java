@@ -1,9 +1,11 @@
 package com.example.rafles.att;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.example.rafles.att.barcode.QrBarcode;
 import com.example.rafles.att.crud_mysql.Mysql_crud;
 import com.example.rafles.att.crud_sqlite.Sql_lite_view;
+import com.example.rafles.att.mahasiswa.CrudMahasiswa;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -92,9 +95,7 @@ public class MainActivity extends AppCompatActivity
             Intent in=new Intent(this,NavSettings.class);
             startActivity(in);
             return true;
-        } else if (id == R.id.nav_camera) {
-            Toast.makeText(MainActivity.this, "Camera Masih dalam pengembangan", 1000).show();
-        } else if (id == R.id.nav_gallery) {
+        }else if (id == R.id.nav_gallery) {
             Toast.makeText(MainActivity.this, "gallery Masih dalam pengembangan", 1000).show();
         } else if (id == R.id.nav_about) {
             Intent in=new Intent(this,About.class);
@@ -118,6 +119,12 @@ public class MainActivity extends AppCompatActivity
             Intent in=new Intent(this,QrBarcode.class);
             startActivity(in);
             return true;
+        }else if (id == R.id.nav_mhs) {
+            Intent in=new Intent(this,CrudMahasiswa.class);
+            startActivity(in);
+            return true;
+        } else if (id == R.id.nav_exit) {
+            showDialog();
         }
 
 
@@ -125,4 +132,34 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    private void showDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+        // set title dialog
+        alertDialogBuilder.setTitle("Are You Sure exit ? ");
+        // set pesan dari dialog
+        alertDialogBuilder
+                .setMessage("Click OKE For for exit !")
+                .setIcon(R.mipmap.ic_launcher)
+                .setCancelable(false)
+                .setPositiveButton("OKE",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // jika tombol diklik, maka akan menutup activity ini
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("NO",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // jika tombol ini diklik, akan menutup dialog
+                        dialog.cancel();
+                    }
+                });
+        // membuat alert dialog dari builder
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // menampilkan alert dialog
+        alertDialog.show();
+    }
+
 }
