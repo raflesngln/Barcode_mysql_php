@@ -4,27 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@mipmap/ic_profile"
             android:title="My Profil" />
         <item
             android:id="@+id/nav_crud_sql_lite"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@mipmap/ic_crud"
             android:title="CRUD SQL Lite" />
         <item
             android:id="@+id/nav_crud_phpmysql"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@mipmap/ic_crud"
             android:title="CRUD PHP Mysql" />
         <item
             android:id="@+id/nav_crudMysql"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@mipmap/ic_sql"
             android:title="CRUD PHP Mysql 2" />
         <item
             android:id="@+id/nav_barcode"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@mipmap/ic_barcode"
             android:title="QR Barcode" />
         <item
             android:id="@+id/nav_mhs"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@mipmap/ic_peoples"
             android:title="Mahasiswa" />
     </group>
 
@@ -32,7 +32,7 @@
         <menu>
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@mipmap/ic_about"
                 android:title="About Apps" />
             <item
                 android:id="@+id/nav_setting"
@@ -40,7 +40,7 @@
                 android:title="Settings" />
             <item
                 android:id="@+id/nav_exit"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@mipmap/ic_exit"
                 android:title="Exit" />
         </menu>
     </item>
