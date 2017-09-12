@@ -1,31 +1,35 @@
 package com.example.rafles.att;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import com.example.rafles.att.barcode.QrBarcode;
+import com.example.rafles.att.barcode.QrBarcodeee;
+import com.example.rafles.att.barqrcode.BarcodeScanner;
 import com.example.rafles.att.crud_mysql.Mysql_crud;
 import com.example.rafles.att.crud_sqlite.Sql_lite_view;
-import com.example.rafles.att.mahasiswa.CrudMahasiswa;
-import com.example.rafles.att.mahasiswa.CrudMahasiswa_ViewBinding;
 import com.example.rafles.att.mahasiswa.ViewActivity;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private static final int PERMISSION_REQUEST_CAMERA = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                     //   .setAction("Action", null).show();
-                startActivity(new Intent(MainActivity.this, CrudMahasiswa.class));
+                getCamera();
+                //startActivity(new Intent(MainActivity.this, BarcodeScanner.class));
             }
         });
 
@@ -59,8 +62,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
             super.onBackPressed();
+
         }
     }
 
@@ -77,7 +82,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Toast.makeText(MainActivity.this, "Menu pengaturan main", 1000).show();
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(in);
             return true;
         } else if (id == R.id.nav_barcode) {
-            Intent in=new Intent(this,QrBarcode.class);
+            Intent in=new Intent(this,QrBarcodeee.class);
             startActivity(in);
             return true;
         }else if (id == R.id.nav_mhs) {
@@ -162,5 +166,37 @@ public class MainActivity extends AppCompatActivity
         // menampilkan alert dialog
         alertDialog.show();
     }
+
+    //CEK FOR REQUEST CAMERA
+    private void getCamera() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            // Permission is already available, start camera preview
+            startActivity(new Intent(MainActivity.this, BarcodeScanner.class));
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    PERMISSION_REQUEST_CAMERA);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        // BEGIN_INCLUDE(onRequestPermissionsResult)
+        if (requestCode == PERMISSION_REQUEST_CAMERA) {
+            // Request for camera permission.
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted. Start camera preview Activity.
+                getCamera();
+            } else {
+                // Permission request was denied.
+                Toast.makeText(MainActivity.this, "Dibatalkan permition", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        // END_INCLUDE(onRequestPermissionsResult)
+    }
+
 
 }

@@ -1,9 +1,7 @@
 package com.example.rafles.att.barcode;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +11,7 @@ import android.widget.Toast;
 import com.example.rafles.att.R;
 //import com.example.rafles.att.barcode.Barcode;
 
-public class QrBarcode extends AppCompatActivity {
+public class QrBarcodeee extends AppCompatActivity {
     Button btn_qr, btn_bar;
     TextView txtalert;
     String contents, format;
@@ -33,14 +31,14 @@ public class QrBarcode extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 txtalert.setText("Barcode Masih dalam pengembangan");
-                Toast.makeText(QrBarcode.this, "Barcode Masih dalam pengembangan", 1000).show();
+                Toast.makeText(QrBarcodeee.this, "Barcode Masih dalam pengembangan", 1000).show();
             }
         });
         btn_qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 txtalert.setText("QR code Masih dalam pengembangan");
-                Toast.makeText(QrBarcode.this, "QrBarcode Masih dalam pengembangan", 1000).show();
+                Toast.makeText(QrBarcodeee.this, "QrBarcodeee Masih dalam pengembangan", 1000).show();
             }
         });
 
