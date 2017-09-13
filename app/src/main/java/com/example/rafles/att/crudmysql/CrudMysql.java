@@ -1,426 +1,269 @@
 package com.example.rafles.att.crudmysql;
 
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.example.rafles.att.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+public class CrudMysql extends AppCompatActivity implements View.OnClickListener{
 
-public class CrudMysql extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+    //Dibawah ini merupakan perintah untuk mendefinikan View
+    private EditText editTextId;
+    private EditText editTextName;
+    private EditText editTextDesg;
+    private EditText editTextSal;
 
-    Toolbar toolbar;
-    FloatingActionButton fab;
-    ListView list;
-    SwipeRefreshLayout swipe;
-    List<Data> itemList = new ArrayList<Data>();
-    Adapter adapter;
-    int success;
-    AlertDialog.Builder dialog;
-    LayoutInflater inflater;
-    View dialogView;
-    EditText txt_id, txt_nama, txt_alamat;
-    String id, nama, alamat;
-
-    private static final String TAG = CrudMysql.class.getSimpleName();
-
-    private static String url_select 	 = Server.URL + "select.php";
-    private static String url_insert 	 = Server.URL + "insert.php";
-    private static String url_edit 	     = Server.URL + "edit.php";
-    private static String url_update 	 = Server.URL + "update.php";
-    private static String url_delete 	 = Server.URL + "delete.php";
-
-    public static final String TAG_ID       = "id";
-    public static final String TAG_NAMA     = "nama";
-    public static final String TAG_ALAMAT   = "alamat";
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
-
-    String tag_json_obj = "json_obj_req";
+    private Button buttonAdd;
+    private Button buttonView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mysqlcrud);
-        toolbar = (Toolbar) findViewById(R.id.mytoolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_crud_mysql);
 
-        // menghubungkan variablel pada layout dan pada java
-        fab     = (FloatingActionButton) findViewById(R.id.fab_add);
-        swipe   = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        list    = (ListView) findViewById(R.id.list);
+        //Inisialisasi dari View
+        editTextId = (EditText) findViewById(R.id.editTextId);
+        editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextDesg = (EditText) findViewById(R.id.editTextDesg);
+        editTextSal = (EditText) findViewById(R.id.editTextSalary);
 
-        // untuk mengisi data dari JSON ke dalam adapter
-        adapter = new Adapter(CrudMysql.this, itemList);
-        list.setAdapter(adapter);
+        buttonAdd = (Button) findViewById(R.id.buttonAdd);
+        buttonView = (Button) findViewById(R.id.buttonView);
 
-        // menamilkan widget refresh
-        swipe.setOnRefreshListener(this);
+        //Setting listeners to button
+        buttonAdd.setOnClickListener(this);
+        buttonView.setOnClickListener(this);
 
-        swipe.post(new Runnable() {
-                       @Override
-                       public void run() {
-                           swipe.setRefreshing(true);
-                           itemList.clear();
-                           adapter.notifyDataSetChanged();
-                           callVolley();
-                       }
-                   }
-        );
-
-        // fungsi floating action button memanggil form biodata
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabCek);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogForm("", "", "", "SIMPAN");
+                String nomor="1";
+                cekIDExist(nomor);
+                //callUpdateExist(nomor);
+                //Toast.makeText(CrudMysql.this, "CEK DATA",Toast.LENGTH_LONG).show();
             }
         });
+    }
 
-        // listview ditekan lama akan menampilkan dua pilihan edit atau delete data
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+    //Dibawah ini merupakan perintah untuk Menambahkan Pegawai (CREATE)
+    private void addEmployee(){
+        final String id = editTextId.getText().toString().trim();
+        final String name = editTextName.getText().toString().trim();
+        final String desg = editTextDesg.getText().toString().trim();
+        final String sal = editTextSal.getText().toString().trim();
+
+        class AddEmployee extends AsyncTask<Void,Void,String> {
+
+            ProgressDialog loading;
 
             @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view,
-                                           final int position, long id) {
-                // TODO Auto-generated method stub
-                final String idx = itemList.get(position).getId();
-
-                final CharSequence[] dialogitem = {"Edit", "Delete"};
-                dialog = new AlertDialog.Builder(CrudMysql.this);
-                dialog.setCancelable(true);
-                dialog.setItems(dialogitem, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-                        switch (which) {
-                            case 0:
-                                edit(idx);
-                                break;
-                            case 1:
-                                delete(idx);
-                                break;
-                        }
-                    }
-                }).show();
-                return false;
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(CrudMysql.this,"Menambahkan...","Tunggu...",false,false);
             }
-        });
 
+            @Override
+            protected void onPostExecute(String s)   {
+                super.onPostExecute(s);
+                loading.dismiss();
+                String str = s;
+                try {
+                    String notif;
+                    JSONObject obj  = new JSONObject(str);
+                    //int success = obj.getInt("success");
+                    String success = obj.getString("success");
+                    String message = obj.getString("message");
+                    if(success=="0"){
+                        notif="GAGAL";
+                    } else{
+                        notif="BERHASIL";
+                    }
+                    Toast.makeText(CrudMysql.this,message + " Status "+ notif,Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                    System.out.println("error Not defined");
+                }
+
+            }
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                params.put(konfigurasi.KEY_EMP_ID,id);
+                params.put(konfigurasi.KEY_EMP_NAMA,name);
+                params.put(konfigurasi.KEY_EMP_POSISI,desg);
+                params.put(konfigurasi.KEY_EMP_GAJIH,sal);
+
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(konfigurasi.URL_ADD, params);
+                return res;
+            }
+        }
+
+        AddEmployee ae = new AddEmployee();
+        ae.execute();
     }
 
     @Override
-    public void onRefresh() {
-        itemList.clear();
-        adapter.notifyDataSetChanged();
-        callVolley();
-    }
-
-    // untuk mengosongi edittext pada form
-    private void kosong(){
-        txt_id.setText(null);
-        txt_nama.setText(null);
-        txt_alamat.setText(null);
-    }
-
-    // untuk menampilkan dialog from biodata
-    private void DialogForm(String idx, String namax, String alamatx, String button) {
-        dialog = new AlertDialog.Builder(CrudMysql.this);
-        inflater = getLayoutInflater();
-        dialogView = inflater.inflate(R.layout.form_biodata, null);
-        dialog.setView(dialogView);
-        dialog.setCancelable(true);
-        dialog.setIcon(R.mipmap.ic_launcher);
-        dialog.setTitle("Form Biodata");
-
-        txt_id      = (EditText) dialogView.findViewById(R.id.txt_id);
-        txt_nama    = (EditText) dialogView.findViewById(R.id.txt_nama);
-        txt_alamat  = (EditText) dialogView.findViewById(R.id.txt_alamat);
-
-        if (!idx.isEmpty()){
-            txt_id.setText(idx);
-            txt_nama.setText(namax);
-            txt_alamat.setText(alamatx);
-        } else {
-            kosong();
+    public void onClick(View v) {
+        if(v == buttonAdd){
+            addEmployee();
         }
 
-        dialog.setPositiveButton(button, new DialogInterface.OnClickListener() {
+        if(v == buttonView){
+            startActivity(new Intent(this,TampilSemuaPgw.class));
+        }
+    }
 
+    //Dibawah ini untuk Cek data ada atau tidak dengan nomor tertentu
+    private void cekIDExist(final String nomor){
+        //final String id = editTextId.getText().toString().trim();
+        class cekIdEmployee extends AsyncTask<Void,Void,String>{
+            ProgressDialog loading;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(CrudMysql.this,"Mencari data...","Waiit...",false,false);
+            }
+            @Override
+            protected void onPostExecute(String s)   {
+                super.onPostExecute(s);
+                loading.dismiss();
+                String str = s;
+                try {
+                    String notif;
+                    JSONObject obj  = new JSONObject(str);
+                    //int success = obj.getInt("success");
+                    String success = obj.getString("success");
+                    String message = obj.getString("message");
+                    if(success=="0"){
+                        notif="TIDAK KETEMU !!";
+                    } else{
+                        notif="KETEMU !!";
+                        confirmUpdate(nomor);
+                    }
+                    Toast.makeText(CrudMysql.this,message + " Status "+ notif,Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                    System.out.println("error Not defined");
+                }
+
+            }
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                String id=nomor;
+                String name=nomor;
+                params.put(konfigurasi.KEY_EMP_ID,id);
+                params.put(konfigurasi.KEY_EMP_NAMA,name);
+
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(konfigurasi.URL_CEK_EMP, params);
+                return res;
+            }
+        }
+        cekIdEmployee ae = new cekIdEmployee();
+        ae.execute();
+    }
+
+    //Update data jika idnya ketemu atau barcode ketemu
+    private void callUpdateExist(final String nomor){
+        //final String id = editTextId.getText().toString().trim();
+        class updateIdEmployee extends AsyncTask<Void,Void,String>{
+            ProgressDialog loading;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(CrudMysql.this,"Megupdate data...","Wait...",false,false);
+            }
+            @Override
+            protected void onPostExecute(String s)   {
+                super.onPostExecute(s);
+                loading.dismiss();
+                String str = s;
+                try {
+                    String notif;
+                    JSONObject obj  = new JSONObject(str);
+                    String success = obj.getString("success");
+                    String message = obj.getString("message");
+                    if(success=="0"){
+                        notif="Data NOt Update !!";
+                    } else{
+                        notif="Data Updated !!";
+                    }
+                    Toast.makeText(CrudMysql.this,message + " Status "+ notif,Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                    System.out.println("error Not defined");
+                }
+
+            }
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                String id=nomor;
+                String name="Raflesia nainggolan";
+                String desg="Lorem ipsum dolor sit amet";
+                String salary="90000";
+
+                params.put(konfigurasi.KEY_EMP_ID,id);
+                params.put(konfigurasi.KEY_EMP_NAMA,name);
+                params.put(konfigurasi.KEY_EMP_POSISI,desg);
+                params.put(konfigurasi.KEY_EMP_GAJIH,salary);
+
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(konfigurasi.URL_UPDATE_EMP, params);
+                return res;
+            }
+        }
+        updateIdEmployee ae = new updateIdEmployee();
+        ae.execute();
+    }
+
+    private void confirmUpdate(final String nomor) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure Update this ID ?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                Toast.makeText(CrudMysql.this, "Data di update! ", Toast.LENGTH_LONG).show();
+                callUpdateExist(nomor);
+                dialog.dismiss();
+            }
+
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                id      = txt_id.getText().toString();
-                nama    = txt_nama.getText().toString();
-                alamat  = txt_alamat.getText().toString();
-
-                simpan_update();
+                Toast.makeText(CrudMysql.this, "Dibatalkan! " , Toast.LENGTH_LONG).show();
+                // Do nothing
                 dialog.dismiss();
             }
         });
-
-        dialog.setNegativeButton("BATAL", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                kosong();
-            }
-        });
-
-        dialog.show();
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
-    // untuk menampilkan semua data pada listview
-    private void callVolley(){
-        itemList.clear();
-        adapter.notifyDataSetChanged();
-        swipe.setRefreshing(true);
 
-        // membuat request JSON
-        JsonArrayRequest jArr = new JsonArrayRequest(url_select, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                Log.d(TAG, response.toString());
-
-                // Parsing json
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject obj = response.getJSONObject(i);
-
-                        Data item = new Data();
-
-                        item.setId(obj.getString(TAG_ID));
-                        item.setNama(obj.getString(TAG_NAMA));
-                        item.setAlamat(obj.getString(TAG_ALAMAT));
-
-                        // menambah item ke array
-                        itemList.add(item);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                // notifikasi adanya perubahan data pada adapter
-                adapter.notifyDataSetChanged();
-
-                swipe.setRefreshing(false);
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                swipe.setRefreshing(false);
-            }
-        });
-
-        // menambah request ke request queue
-        AppController.getInstance().addToRequestQueue(jArr);
-    }
-
-    // fungsi untuk menyimpan atau update
-    private void simpan_update() {
-        String url;
-        // jika id kosong maka simpan, jika id ada nilainya maka update
-        if (id.isEmpty()){
-            url = url_insert;
-        } else {
-            url = url_update;
-        }
-
-        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Response: " + response.toString());
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    success = jObj.getInt(TAG_SUCCESS);
-
-                    // Cek error node pada json
-                    if (success == 1) {
-                        Log.d("Add/update", jObj.toString());
-
-                        callVolley();
-                        kosong();
-
-                        Toast.makeText(CrudMysql.this, jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-                        adapter.notifyDataSetChanged();
-
-                    } else {
-                        Toast.makeText(CrudMysql.this, jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(CrudMysql.this, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters ke post url
-                Map<String, String> params = new HashMap<String, String>();
-                // jika id kosong maka simpan, jika id ada nilainya maka update
-                if (id.isEmpty()){
-                    params.put("nama", nama);
-                    params.put("alamat", alamat);
-                } else {
-                    params.put("id", id);
-                    params.put("nama", nama);
-                    params.put("alamat", alamat);
-                }
-
-                return params;
-            }
-
-        };
-
-        AppController.getInstance().addToRequestQueue(strReq, tag_json_obj);
-    }
-
-    // fungsi untuk get edit data
-    private void edit(final String idx){
-        StringRequest strReq = new StringRequest(Request.Method.POST, url_edit, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Response: " + response.toString());
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    success = jObj.getInt(TAG_SUCCESS);
-
-                    // Cek error node pada json
-                    if (success == 1) {
-                        Log.d("get edit data", jObj.toString());
-                        String idx      = jObj.getString(TAG_ID);
-                        String namax    = jObj.getString(TAG_NAMA);
-                        String alamatx  = jObj.getString(TAG_ALAMAT);
-
-                        DialogForm(idx, namax, alamatx, "UPDATE");
-
-                        adapter.notifyDataSetChanged();
-
-                    } else {
-                        Toast.makeText(CrudMysql.this, jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(CrudMysql.this, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters ke post url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("id", idx);
-
-                return params;
-            }
-
-        };
-
-        AppController.getInstance().addToRequestQueue(strReq, tag_json_obj);
-    }
-
-    // fungsi untuk menghapus
-    private void delete(final String idx){
-        StringRequest strReq = new StringRequest(Request.Method.POST, url_delete, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Response: " + response.toString());
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    success = jObj.getInt(TAG_SUCCESS);
-
-                    // Cek error node pada json
-                    if (success == 1) {
-                        Log.d("delete", jObj.toString());
-
-                        callVolley();
-
-                        Toast.makeText(CrudMysql.this, jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-
-                        adapter.notifyDataSetChanged();
-
-                    } else {
-                        Toast.makeText(CrudMysql.this, jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Error: " + error.getMessage());
-                Toast.makeText(CrudMysql.this, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters ke post url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("id", idx);
-
-                return params;
-            }
-
-        };
-
-        AppController.getInstance().addToRequestQueue(strReq, tag_json_obj);
-    }
 
 }

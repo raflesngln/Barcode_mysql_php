@@ -7,14 +7,6 @@ package com.example.rafles.att.mahasiswa;
 
 import java.util.List;
 
-/**
- * Created by sulistiyanto on 07/12/16.
- */
-
-/**
- * Created by sulistiyanto on 07/12/16.
- */
-
 public class Value {
 
     String value;

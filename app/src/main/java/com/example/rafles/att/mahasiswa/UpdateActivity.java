@@ -26,8 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UpdateActivity extends AppCompatActivity {
 
-    //public static final String URL = "http://sulistiyanto.000webhostapp.com/";
-    public static final String URL = "http://116.206.197.163/android_php/mahasiswa/";
+    public static final String URL="http://192.168.43.78/android_php/mahasiswa/";
+    //public static final String URL = "http://192.168.10.33/android_php/mahasiswa/";
     private RadioButton radioSexButton;
     private ProgressDialog progress;
 
@@ -130,7 +130,6 @@ public class UpdateActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Hapus",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-
                                 String npm = editTextNPM.getText().toString();
                                 Retrofit retrofit = new Retrofit.Builder()
                                         .baseUrl(URL)

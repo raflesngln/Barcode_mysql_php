@@ -37,4 +37,8 @@ public interface RegisterAPI {
     @FormUrlEncoded
     @POST("search.php")
     Call<Value> search(@Field("search") String search);
+
+    @FormUrlEncoded
+    @POST("select_id.php")
+    Call<Value> cari_id(@Field("search") String search);
 }

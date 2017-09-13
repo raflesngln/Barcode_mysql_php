@@ -27,9 +27,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ViewActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
-
-    //public static final String URL = "http://sulistiyanto.000webhostapp.com/";
-    public static final String URL = "http://116.206.197.163/android_php/mahasiswa/";
+    public static final String URL="http://192.168.43.78/android_php/mahasiswa/";
+    //public static final String URL = "http://192.168.10.33/android_php/mahasiswa/";
     private List<Result> results = new ArrayList<>();
     private RecyclerViewAdapter viewAdapter;
 

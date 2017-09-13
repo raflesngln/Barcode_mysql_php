@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,10 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.rafles.att.barcode.QrBarcodeee;
 import com.example.rafles.att.barqrcode.BarcodeScanner;
 import com.example.rafles.att.crud_mysql.Mysql_crud;
 import com.example.rafles.att.crud_sqlite.Sql_lite_view;
+import com.example.rafles.att.crudmysql.CrudMysql;
 import com.example.rafles.att.mahasiswa.ViewActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -117,13 +116,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(in);
             return true;
         } else if (id == R.id.nav_crudMysql) {
-            Intent in=new Intent(this,Mysql_crud.class);
+            Intent in=new Intent(this,CrudMysql.class);
             startActivity(in);
             return true;
         } else if (id == R.id.nav_barcode) {
-            Intent in=new Intent(this,QrBarcodeee.class);
-            startActivity(in);
-            return true;
+            getCamera();
         }else if (id == R.id.nav_mhs) {
             Intent in=new Intent(this,ViewActivity.class);
             startActivity(in);

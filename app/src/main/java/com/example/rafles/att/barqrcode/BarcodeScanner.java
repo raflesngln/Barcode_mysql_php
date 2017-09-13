@@ -1,10 +1,12 @@
 package com.example.rafles.att.barqrcode;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -20,12 +22,19 @@ import android.widget.Toast;
 
 import com.example.rafles.att.MainActivity;
 import com.example.rafles.att.R;
+import com.example.rafles.att.crudmysql.RequestHandler;
+import com.example.rafles.att.crudmysql.konfigurasi;
 
 import net.sourceforge.zbar.Config;
 import net.sourceforge.zbar.Image;
 import net.sourceforge.zbar.ImageScanner;
 import net.sourceforge.zbar.Symbol;
 import net.sourceforge.zbar.SymbolSet;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created by rafles on 12/19/15.
@@ -143,7 +152,8 @@ public class BarcodeScanner extends AppCompatActivity  implements ActivityCompat
                     Log.i("<<<<<<Asset Code>>>>> ",
                             "<<<<Bar Code>>> " + sym.getData());
                     String scanResult = sym.getData().trim();
-                    cekdata(scanResult);
+                    //cekdata(scanResult);
+                      cekIDExist(scanResult);
                         barcodeScanned = true;
                         break;
                 }
@@ -175,7 +185,6 @@ public void cekdata(final String nomor){
 
 }
     private void showAlertDialog(final String nomor) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm");
         builder.setMessage("Are you sure save ?");
@@ -203,5 +212,141 @@ public void cekdata(final String nomor){
         alert.show();
 }
 
+/*=====================FUNGSI UNTUK MENGECEK DATA KE DATABASE===================================  */
+//Dibawah ini untuk Cek data ada atau tidak dengan nomor tertentu
+private void cekIDExist(final String nomor){
+    class cekIdEmployee extends AsyncTask<Void,Void,String> {
+        ProgressDialog loading;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading = ProgressDialog.show(BarcodeScanner.this,"Mencari data...","Waiit...",false,false);
+        }
+        @Override
+        protected void onPostExecute(String s)   {
+            super.onPostExecute(s);
+            loading.dismiss();
+            String str = s;
+            try {
+                String notif;
+                JSONObject obj  = new JSONObject(str);
+                String success = obj.getString("success");
+                String message = obj.getString("message");
+                if(success=="0"){
+                    notif="TIDAK KETEMU !!";
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(500);
+                    startActivity(getIntent());
+                } else{
+                    notif="KETEMU !!";
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(100);
+                    confirmUpdate(nomor);
+                }
+                //Toast.makeText(BarcodeScanner.this,message + " Status "+ notif+"nomor"+nomor,Toast.LENGTH_LONG).show();
+                Toast.makeText(BarcodeScanner.this, message + " Status "+ notif+"nomor"+nomor, 3000).show();
+
+            } catch (JSONException e){
+                e.printStackTrace();
+                System.out.println("error Not defined");
+            }
+
+        }
+        @Override
+        protected String doInBackground(Void... v) {
+            HashMap<String,String> params = new HashMap<>();
+            String id=nomor;
+            params.put(konfigurasi.KEY_EMP_ID,id);
+            RequestHandler rh = new RequestHandler();
+            String res = rh.sendPostRequest(konfigurasi.URL_CEK_EMP, params);
+            return res;
+        }
+    }
+    cekIdEmployee ae = new cekIdEmployee();
+    ae.execute();
+}
+
+//Show dialog jika barcode cocok dengan id di database
+    private void confirmUpdate(final String nomor) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure Update this ID ?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                Toast.makeText(BarcodeScanner.this, "Data di update! ", Toast.LENGTH_LONG).show();
+                callUpdateExist(nomor);
+                startActivity(getIntent());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(BarcodeScanner.this, "Dibatalkan! " , Toast.LENGTH_LONG).show();
+                startActivity(getIntent());
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    //Update data jika idnya ketemu atau barcode ketemu
+    private void callUpdateExist(final String nomor){
+        //final String id = editTextId.getText().toString().trim();
+        class updateIdEmployee extends AsyncTask<Void,Void,String>{
+            ProgressDialog loading;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(BarcodeScanner.this,"Megupdate data...","Wait...",false,false);
+            }
+            @Override
+            protected void onPostExecute(String s)   {
+                super.onPostExecute(s);
+                loading.dismiss();
+                String str = s;
+                try {
+                    String notif;
+                    JSONObject obj  = new JSONObject(str);
+                    String success = obj.getString("success");
+                    String message = obj.getString("message");
+                    if(success=="0"){
+                        notif="Data NOt Update !!";
+                    } else{
+                        notif="Data Updated !!";
+                    }
+                    Toast.makeText(BarcodeScanner.this,message + " Status "+ notif,Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                    System.out.println("error Not defined");
+                }
+
+            }
+            @Override
+            protected String doInBackground(Void... v) {
+                HashMap<String,String> params = new HashMap<>();
+                String id=nomor;
+                String name="Raflesia nainggolan";
+                String desg="Lorem ipsum dolor sit amet";
+                String salary="90000";
+
+                params.put(konfigurasi.KEY_EMP_ID,id);
+                params.put(konfigurasi.KEY_EMP_NAMA,name);
+                params.put(konfigurasi.KEY_EMP_POSISI,desg);
+                params.put(konfigurasi.KEY_EMP_GAJIH,salary);
+
+                RequestHandler rh = new RequestHandler();
+                String res = rh.sendPostRequest(konfigurasi.URL_UPDATE_EMP, params);
+                return res;
+            }
+        }
+        updateIdEmployee ae = new updateIdEmployee();
+        ae.execute();
+    }
+/* =========================== END OF DATA CEK DATABASE ==============================================
+*/
 
 }
