@@ -21,16 +21,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 /**
- * Created by muhammadyusuf on 01/19/2017.
- * kodingindonesia
+ * Created by rafles on 01/19/2017.
  */
 
 public class TampilPegawai extends AppCompatActivity implements View.OnClickListener{
 
     private EditText editTextId;
     private EditText editTextName;
-    private EditText editTextDesg;
-    private EditText editTextSalary;
+    private EditText editTextAlamat;
+    private EditText editTextJabatan;
 
     private Button buttonUpdate;
     private Button buttonDelete;
@@ -48,8 +47,8 @@ public class TampilPegawai extends AppCompatActivity implements View.OnClickList
 
         editTextId = (EditText) findViewById(R.id.editTextId);
         editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextDesg = (EditText) findViewById(R.id.editTextDesg);
-        editTextSalary = (EditText) findViewById(R.id.editTextSalary);
+        editTextAlamat = (EditText) findViewById(R.id.editTextAlamat);
+        editTextJabatan = (EditText) findViewById(R.id.editTextJabatan);
 
         buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
         buttonDelete = (Button) findViewById(R.id.buttonDelete);
@@ -59,7 +58,13 @@ public class TampilPegawai extends AppCompatActivity implements View.OnClickList
         //set value editTextId dari hasil lempar class
         editTextId.setText(id);
         //tampilkan value dari edit data
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getEmployee();
+    }
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     private void getEmployee(){
@@ -95,12 +100,12 @@ public class TampilPegawai extends AppCompatActivity implements View.OnClickList
             JSONArray result = jsonObject.getJSONArray(konfigurasi.TAG_JSON_ARRAY);
             JSONObject c = result.getJSONObject(0);
             String name = c.getString(konfigurasi.TAG_NAMA);
-            String desg = c.getString(konfigurasi.TAG_POSISI);
-            String sal = c.getString(konfigurasi.TAG_GAJIH);
+            String alamat = c.getString(konfigurasi.TAG_ALAMAT);
+            String jabatan = c.getString(konfigurasi.TAG_JABATAN);
 
             editTextName.setText(name);
-            editTextDesg.setText(desg);
-            editTextSalary.setText(sal);
+            editTextAlamat.setText(alamat);
+            editTextJabatan.setText(jabatan);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -110,8 +115,8 @@ public class TampilPegawai extends AppCompatActivity implements View.OnClickList
 
     private void updateEmployee(){
         final String name = editTextName.getText().toString().trim();
-        final String desg = editTextDesg.getText().toString().trim();
-        final String salary = editTextSalary.getText().toString().trim();
+        final String alamat = editTextAlamat.getText().toString().trim();
+        final String jabatan = editTextJabatan.getText().toString().trim();
 
         class UpdateEmployee extends AsyncTask<Void,Void,String>{
             ProgressDialog loading;
@@ -133,8 +138,8 @@ public class TampilPegawai extends AppCompatActivity implements View.OnClickList
                 HashMap<String,String> hashMap = new HashMap<>();
                 hashMap.put(konfigurasi.KEY_EMP_ID,id);
                 hashMap.put(konfigurasi.KEY_EMP_NAMA,name);
-                hashMap.put(konfigurasi.KEY_EMP_POSISI,desg);
-                hashMap.put(konfigurasi.KEY_EMP_GAJIH,salary);
+                hashMap.put(konfigurasi.KEY_EMP_ALAMAT,alamat);
+                hashMap.put(konfigurasi.KEY_EMP_JABATAN,jabatan);
 
                 RequestHandler rh = new RequestHandler();
 

@@ -33,22 +33,22 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Posisi" />
+    android:text="Alamat" />
 
 <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/editTextDesg" />
+    android:id="@+id/editTextAlamat" />
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Gajih" />
+    android:text="Jabatan" />
 
 <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/editTextSalary" />
+    android:id="@+id/editTextJabatan" />
 
 <Button
     android:layout_width="match_parent"
@@ -61,13 +61,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Daftar Pegawai" />
-
-<android.support.design.widget.FloatingActionButton
-    android:id="@+id/fabCek"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|end"
-    android:src="@drawable/ic_plus2"/>
 
 </LinearLayout>
 

@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by muhammadyusuf on 01/19/2017.
- * kodingindonesia
+ * Created by rafles on 01/19/2017.
  */
 
 public class TampilSemuaPgw extends AppCompatActivity implements ListView.OnItemClickListener{
@@ -37,9 +36,14 @@ public class TampilSemuaPgw extends AppCompatActivity implements ListView.OnItem
         setContentView(R.layout.activity_tampil_semua_pgw);
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getJSON();
     }
-
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 
     private void showEmployee(){
         JSONObject jsonObject = null;
@@ -67,7 +71,6 @@ public class TampilSemuaPgw extends AppCompatActivity implements ListView.OnItem
                 TampilSemuaPgw.this, list, R.layout.list_item,
                 new String[]{konfigurasi.TAG_ID,konfigurasi.TAG_NAMA},
                 new int[]{R.id.id, R.id.name});
-
         listView.setAdapter(adapter);
     }
 

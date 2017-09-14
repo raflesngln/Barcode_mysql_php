@@ -28,7 +28,7 @@
             android:title="Mahasiswa" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Utilities">
         <menu>
             <item
                 android:id="@+id/nav_about"

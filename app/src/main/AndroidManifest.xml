@@ -78,11 +78,11 @@
         <activity
             android:name=".barqrcode.BarcodeScanner"
             android:label="@string/app_name"/>
-        <activity android:name=".crudmysql.CrudMysql">
+        <activity android:name=".crudmysql.CrudMysql" android:label="Data Pegawai">
         </activity>
-        <activity android:name=".crudmysql.TampilPegawai">
+        <activity android:name=".crudmysql.TampilPegawai" android:label="Detail Pegawai">
         </activity>
-        <activity android:name=".crudmysql.TampilSemuaPgw">
+        <activity android:name=".crudmysql.TampilSemuaPgw" android:label="List Pegawai">
         </activity>
     </application>
 

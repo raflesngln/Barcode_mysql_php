@@ -149,8 +149,7 @@ public class BarcodeScanner extends AppCompatActivity  implements ActivityCompat
 
                 SymbolSet syms = scanner.getResults();
                 for (Symbol sym : syms) {
-                    Log.i("<<<<<<Asset Code>>>>> ",
-                            "<<<<Bar Code>>> " + sym.getData());
+                    //Log.i("Barcode and QRCode" + sym.getData());
                     String scanResult = sym.getData().trim();
                     //cekdata(scanResult);
                       cekIDExist(scanResult);
@@ -235,7 +234,7 @@ private void cekIDExist(final String nomor){
                 if(success=="0"){
                     notif="TIDAK KETEMU !!";
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    vibrator.vibrate(500);
+                    vibrator.vibrate(600);
                     startActivity(getIntent());
                 } else{
                     notif="KETEMU !!";
@@ -244,7 +243,7 @@ private void cekIDExist(final String nomor){
                     confirmUpdate(nomor);
                 }
                 //Toast.makeText(BarcodeScanner.this,message + " Status "+ notif+"nomor"+nomor,Toast.LENGTH_LONG).show();
-                Toast.makeText(BarcodeScanner.this, message + " Status "+ notif+"nomor"+nomor, 3000).show();
+                Toast.makeText(BarcodeScanner.this, message + " dengan Nomor BARCODE/QRCODE  "+nomor, 1000).show();
 
             } catch (JSONException e){
                 e.printStackTrace();
@@ -329,14 +328,14 @@ private void cekIDExist(final String nomor){
             protected String doInBackground(Void... v) {
                 HashMap<String,String> params = new HashMap<>();
                 String id=nomor;
-                String name="Raflesia nainggolan";
-                String desg="Lorem ipsum dolor sit amet";
-                String salary="90000";
+                String name="Mawar";
+                String alamat="Jakarta Barat Cengkareng";
+                String jabatan="HRD";
 
                 params.put(konfigurasi.KEY_EMP_ID,id);
                 params.put(konfigurasi.KEY_EMP_NAMA,name);
-                params.put(konfigurasi.KEY_EMP_POSISI,desg);
-                params.put(konfigurasi.KEY_EMP_GAJIH,salary);
+                params.put(konfigurasi.KEY_EMP_ALAMAT,alamat);
+                params.put(konfigurasi.KEY_EMP_JABATAN,jabatan);
 
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(konfigurasi.URL_UPDATE_EMP, params);

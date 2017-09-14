@@ -75,7 +75,7 @@ CREATE TABLE `products` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `products` */
 
@@ -88,14 +88,14 @@ DROP TABLE IF EXISTS `tb_pegawai`;
 CREATE TABLE `tb_pegawai` (
   `id` varchar(50) NOT NULL,
   `nama` varchar(100) NOT NULL,
-  `posisi` varchar(100) NOT NULL,
-  `gajih` varchar(100) NOT NULL,
+  `alamat` varchar(100) DEFAULT NULL,
+  `jabatan` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_pegawai` */
 
-insert  into `tb_pegawai`(`id`,`nama`,`posisi`,`gajih`) values ('1','Raflesia nainggolan','Lorem ipsum dolor sit amet','90000'),('2','ugihih','gibiv8givvi','56566'),('3','aldy ajalah','IT','999'),('8999999001933','Raflesia nainggolan','Lorem ipsum dolor sit amet','90000');
+insert  into `tb_pegawai`(`id`,`nama`,`alamat`,`jabatan`) values ('1','Raflesia nainggolan','Lorem ipsum dolor sit amet','UG'),('1234','budi','jkgfyuftytyftytyf','fghgyfyftf'),('3','aldy ajalah','IT','H'),('8999999001933','rerer','jkt','fgfghfg');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
