@@ -9,7 +9,7 @@ public class konfigurasi {
     //Pada tutorial Kali ini, karena kita membuat localhost maka alamatnya tertuju ke IP komputer
     //dimana File PHP tersebut berada
     //PENTING! JANGAN LUPA GANTI IP SESUAI DENGAN IP KOMPUTER DIMANA DATA PHP BERADA
-    public static String URL="http://192.168.10.33/android_php/crud2/";
+    public static String URL="http://192.168.10.131/android_php/crud2/";
     //public static String URL="http://192.168.43.78/android_php/crud2/";
 
     public static final String URL_ADD=URL+"tambahPgw.php";

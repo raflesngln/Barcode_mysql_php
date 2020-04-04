@@ -26,6 +26,10 @@
             android:id="@+id/nav_mhs"
             android:icon="@drawable/ic_peoples"
             android:title="Mahasiswa" />
+        <item
+            android:id="@+id/nav_reject"
+            android:icon="@drawable/ic_peoples"
+            android:title="RejectShip" />
     </group>
 
     <item android:title="Utilities">

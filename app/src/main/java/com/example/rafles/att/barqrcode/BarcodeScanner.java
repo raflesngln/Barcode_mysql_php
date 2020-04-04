@@ -1,5 +1,6 @@
 package com.example.rafles.att.barqrcode;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -221,6 +222,7 @@ private void cekIDExist(final String nomor){
             super.onPreExecute();
             loading = ProgressDialog.show(BarcodeScanner.this,"Mencari data...","Waiit...",false,false);
         }
+        @SuppressLint("WrongConstant")
         @Override
         protected void onPostExecute(String s)   {
             super.onPostExecute(s);

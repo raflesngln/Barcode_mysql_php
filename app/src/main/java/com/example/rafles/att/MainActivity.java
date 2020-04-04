@@ -24,6 +24,7 @@ import com.example.rafles.att.crud_mysql.Mysql_crud;
 import com.example.rafles.att.crud_sqlite.Sql_lite_view;
 import com.example.rafles.att.crudmysql.CrudMysql;
 import com.example.rafles.att.mahasiswa.ViewActivity;
+import com.example.rafles.att.table_reject.RejectShipmentActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,ActivityCompat.OnRequestPermissionsResultCallback {
@@ -121,7 +122,11 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.nav_barcode) {
             getCamera();
-        }else if (id == R.id.nav_mhs) {
+        }else if (id == R.id.nav_reject) {
+            Intent in=new Intent(this,RejectShipmentActivity.class);
+            startActivity(in);
+            return true;
+        } else if (id == R.id.nav_mhs) {
             Intent in=new Intent(this,ViewActivity.class);
             startActivity(in);
             return true;
